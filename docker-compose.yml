@@ -1,0 +1,24 @@
+# MySQL do Circuito Zero Desperdício (padrão das aulas 17/18).
+# Um único servidor MySQL, com um banco (schema) próprio para cada microsserviço:
+#   ms-ofertas  -> db_ofertas
+#   ms-resgates -> db_resgates
+# Os bancos, as tabelas e a carga inicial são criados automaticamente
+# (createDatabaseIfNotExist=true + Flyway) quando cada microsserviço sobe.
+#
+# Subir:  docker compose up -d
+# Parar:  docker compose down
+
+services:
+  mysqldb:
+    container_name: mysql_circuito_zero
+
+    image: mysql:8.4.6
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - ./.data/mysql-data:/var/lib/mysql

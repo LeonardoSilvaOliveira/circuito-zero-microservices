@@ -1,0 +1,25 @@
+# Build
+target/
+!.mvn/wrapper/maven-wrapper.jar
+HELP.md
+
+# IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+.sts4-cache/
+
+
+# SO
+.DS_Store
+Thumbs.db
+
+# Logs / dados locais
+*.log
+.data/
