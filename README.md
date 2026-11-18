@@ -58,7 +58,7 @@ cd circuito-zero-microservices
 docker compose up -d
 ```
 
-Aguarde cerca de 20 segundos para o MySQL iniciar (usuário `root`, senha `root`). Só inicie os microsserviços depois que o MySQL estiver no ar.
+Aguarde cerca de 40 segundos para o MySQL iniciar (usuário `root`, senha `root`). Só inicie os microsserviços depois que o MySQL estiver no ar. Se já houver outro MySQL usando a porta 3306 (como o das aulas), pare-o antes de rodar o `docker compose up -d`.
 
 ### 3. Subir os serviços (nesta ordem, cada um em um terminal)
 
@@ -69,7 +69,7 @@ cd ms-ofertas && ./mvnw spring-boot:run
 cd ms-resgates && ./mvnw spring-boot:run
 ```
 
-No Windows use `mvnw.cmd spring-boot:run`. Também é possível executar as classes `*Application` pelo IntelliJ.
+No Windows, use `.\mvnw.cmd spring-boot:run` (PowerShell) ou `mvnw.cmd spring-boot:run` (CMD). Também é possível executar as classes `*Application` pelo IntelliJ.
 
 Para testar o Load Balancer, suba uma segunda instância do ms-ofertas repetindo o comando em outro terminal (os microsserviços usam porta aleatória).
 
@@ -129,6 +129,6 @@ Exemplo de corpo para criar um resgate:
 
 ## Teste do Circuit Breaker
 
-1. Pare o ms-ofertas.
+1. Pare todas as instâncias do ms-ofertas.
 2. Faça um `POST /ms-resgates/api/v1/resgates`: a resposta é `503` e o resgate é salvo como `CONFIRMACAO_PENDENTE`.
 3. Suba o ms-ofertas novamente, aguarde cerca de 90 segundos e chame `PATCH /ms-resgates/api/v1/resgates/{id}/confirmar`: o resgate passa para `RESERVADO` e a oferta para `RESERVADA`. Logo depois de derrubar ou subir uma instância, o Gateway pode alternar entre respostas 200 e 500 por até 1 minuto e meio, até o Eureka atualizar o registro. Isso é normal.
